@@ -1,25 +1,22 @@
+#1
+import os
+import sys
+import time
+import logging
+from urllib.parse import urlparse
+
+#2
 import torch
 import torch.nn as nn
 import torch.optim as optim
 import torchvision
 import torchvision.transforms as transforms
 from mlflow.models.signature import infer_signature
-from urllib.parse import urlparse
-import sys
-#import lightning as L
-import torch
-import time
-#from lightning.pytorch.callbacks import EarlyStopping, LearningRateMonitor, ModelCheckpoint
-# try:
-#     from torchmetrics.functional import accuracy
-# except ImportError:
-#     from pytorch_lightning.metrics.functional import accuracy
-
 import mlflow.pytorch
 from mlflow import MlflowClient
 import mlflow
 
-import logging
+
 
 #enable debug logging, and the full traceback will be displayed, including the detailed error message
 logging.basicConfig(level=logging.WARN)
@@ -127,6 +124,7 @@ timestamp = int(time.time())
 #model_dir = f"/mlflow_torch/models/{timestamp}"
 model_dir = f"ml_torch/models/{timestamp}"
 
+data_dir = "data/FashionMNIST/raw"
 if __name__ == "__main__":
 
     # Number of epochs to train for 
@@ -149,7 +147,8 @@ if __name__ == "__main__":
         optimizer = optim.SGD(model.parameters(), lr=0.001, momentum=0.9)
 
         accuracy = train_model(n_epochs,model,criterion,optimizer)
-
+        if os.path.exists(data_dir):
+            mlflow.log_artifact(data_dir)
         # logging parameters 
         mlflow.log_param("epochs", n_epochs)
 
