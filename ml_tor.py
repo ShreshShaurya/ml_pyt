@@ -67,42 +67,6 @@ def log_scalar(name, value, step):
     """Log a scalar value to both MLflow and TensorBoard"""
     mlflow.log_metric(name, value, step=step)
 
-def train_model(n_epochs,model,criterion,optimizer):
-    # Train the model
-    for epoch in range(n_epochs):
-        running_loss = 0.0
-        for i, data in enumerate(trainloader, 0):
-            inputs, labels = data
-
-            optimizer.zero_grad()
-
-            outputs = model(inputs)
-            loss = criterion(outputs, labels)
-            loss.backward()
-            optimizer.step()
-
-            running_loss += loss.item()
-            if i % 200 == 199:
-                print('[%d, %5d] loss: %.3f' % (epoch + 1, i + 1, running_loss / 200))
-                running_loss = 0.0
-            
-            log_scalar('loss', running_loss/ 200, epoch)
-    print('Finished training')
-
-    # Test the model
-    correct = 0
-    total = 0
-    with torch.no_grad():
-        for data in testloader:
-            images, labels = data
-            outputs = model(images)
-            _, predicted = torch.max(outputs.data, 1)
-            total += labels.size(0)
-            correct += (predicted == labels).sum().item()
-    accuracy = 100 * correct / total
-    print('Accuracy on the test set: %.2f %%' % accuracy)
-    return accuracy
-
 
 #mlflow start
 
@@ -145,8 +109,41 @@ if __name__ == "__main__":
         # Define the loss function and optimizer
         criterion = nn.CrossEntropyLoss()
         optimizer = optim.SGD(model.parameters(), lr=0.001, momentum=0.9)
+        
+        # Train the model
+        for epoch in range(n_epochs):
+            running_loss = 0.0
+            for i, data in enumerate(trainloader, 0):
+                inputs, labels = data
 
-        accuracy = train_model(n_epochs,model,criterion,optimizer)
+                optimizer.zero_grad()
+
+                outputs = model(inputs)
+                loss = criterion(outputs, labels)
+                loss.backward()
+                optimizer.step()
+
+                running_loss += loss.item()
+                if i % 200 == 199:
+                    print('[%d, %5d] loss: %.3f' % (epoch + 1, i + 1, running_loss / 200))
+                    running_loss = 0.0
+                
+                log_scalar('loss', running_loss/ 200, epoch)
+        print('Finished training')
+
+        # Test the model
+        correct = 0
+        total = 0
+        with torch.no_grad():
+            for data in testloader:
+                images, labels = data
+                outputs = model(images)
+                _, predicted = torch.max(outputs.data, 1)
+                total += labels.size(0)
+                correct += (predicted == labels).sum().item()
+        accuracy = 100 * correct / total
+        print('Accuracy on the test set: %.2f %%' % accuracy)
+
         if os.path.exists(data_dir):
             mlflow.log_artifact(data_dir)
         # logging parameters 
