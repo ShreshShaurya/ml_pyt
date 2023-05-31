@@ -4,8 +4,8 @@ channels:
 dependencies:
   - numpy>=1.14.3
   - pandas>=1.0.0
-  - torch>=2.0
-  - cloudpickle==1.6.0
+  - torch>=2.0.0
+  - cloudpickle=1.6.0
   - torchvision>=0.15.1
   - pip
   - pip:
