@@ -147,7 +147,7 @@ if __name__ == "__main__":
         if os.path.exists(data_dir):
             mlflow.log_artifact(data_dir)
         # logging parameters 
-        mlflow.log_param("epochs", n_epochs)
+        mlflow.log_param("n_epochs", n_epochs)
 
         # logging metrics
         mlflow.log_metric("accuracy", accuracy)
