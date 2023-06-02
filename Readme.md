@@ -19,7 +19,7 @@ this will add data to remote storage
 dvc remote add -d remote_storage path/to/your/dvc_remote
 ```
 dvc add copies the specified directory or files to .dvc/cache or shared_cache/you/specified, creates .dvc files for each tracked folder or file and adds them to .gitignore
-.dvc and other files are tracked with git add --all
+* .dvc and other files are tracked with git add --all
 
 - Track the data directory with DVC:
  ```sh
