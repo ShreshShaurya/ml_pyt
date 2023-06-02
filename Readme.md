@@ -14,6 +14,7 @@ dvc init
 Using dvc init in workspace will initialize a DVC project, including the internal .dvc/ directory
 
 - Configure DVC remote storage (e.g., AWS S3, Google Cloud Storage):
+this will add data to remote storage
  ```sh
 dvc remote add -d remote_storage path/to/your/dvc_remote
 ```
