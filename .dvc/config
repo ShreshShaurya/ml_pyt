@@ -3,4 +3,4 @@
 ['remote "remote_storage"']
     url = ../path/to/your/dvc_remote
 ['remote "myremote"']
-    url = gdrive://12_K9QMZmOOwCMdmMh2gdgNek2XOVOKX-
+    url = gdrive://12_K9QMZmOOwCMdmMh2
