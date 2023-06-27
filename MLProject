@@ -1,9 +1,11 @@
-name: tutorial
-
-conda_env: conda.yaml
+name: tutorial 
+#conda_env: conda.yaml
+docker_env:
+  image:  mlflow-docker-example
 
 entry_points:
   main:
     parameters:
       n_epochs: {type: int, default: 5}
     command: "python ml_torch_mnist.py {n_epochs}"
+
